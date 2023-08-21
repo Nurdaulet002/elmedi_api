@@ -1,3 +1,9 @@
+import os
+import json
+import requests
+from rest_framework import status
+from dotenv import load_dotenv
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
@@ -59,3 +65,81 @@ class DoctorTimetableCreateView(DoctorTimetableMixin, CreateAPIView):
 # Посмотреть детальную информацию счет реестра
 class DoctorTimetableDetail(DoctorTimetableMixin, RetrieveUpdateDestroyAPIView):
     name = 'doctor-timetable-detail'
+
+
+load_dotenv()
+
+HOSPITALS_TOKENS = {
+    "hospital1": os.environ.get("HOSPITAL1_TOKEN")
+}
+INSURANCES_TOKENS = {
+    "insurance1": os.environ.get("INSURANCE1_TOKEN")
+}
+with open("config.json", "r") as f:
+    CONFIG = json.load(f)
+
+HOSPITALS_TO_SERVERS = CONFIG["HOSPITALS_TO_SERVERS"]
+INSURANCES_TO_SERVERS = CONFIG["INSURANCES_TO_SERVERS"]
+
+
+class AggregateFreeSlotsView(APIView):
+
+    def get(self, request):
+        specializations = request.query_params.getlist('specialization')
+        start_date_str = request.query_params.get('start_date')
+        end_date_str = request.query_params.get('end_date')
+        requested_hospitals = request.query_params.getlist('hospitals')
+        params = {
+            'specialization': specializations,
+            'start_date': start_date_str,
+            'end_date': end_date_str
+        }
+
+        results = []
+
+        servers_to_query = {hospital: HOSPITALS_TO_SERVERS[hospital] for hospital in requested_hospitals if
+                            hospital in HOSPITALS_TO_SERVERS}
+
+        for hospital, server in servers_to_query.items():
+            headers = {'Authorization': f'Token {HOSPITALS_TOKENS[hospital]}'}
+            response = requests.get(f"{server}api/register/free_slots/", params=params, headers=headers)
+            # response = requests.get(f"{server}api/register/free_slots/", params=params)
+            print(response.text)
+            if response.status_code == 200:
+                print("correcttttttttttttt")
+                results.append(response.json())
+                # results.extend(response.json().get('data', []))  # Предположим, что ответ возвращает список данных в ключе "data".
+            else:
+                print("errroooor")
+                # Здесь можно обработать ошибки или просто записать их
+                pass
+
+
+
+        return Response(results, status=status.HTTP_200_OK)
+
+
+class CustomerProfessionalExaminationView(APIView):
+
+    def get(self, request):
+        iin = request.query_params.get('iin')
+        requested_insurances = request.query_params.getlist('insurance')
+        results = []
+
+        servers_to_query = {insurance: INSURANCES_TO_SERVERS[insurance] for insurance in requested_insurances if
+                            insurance in INSURANCES_TO_SERVERS}
+        for insurance, server in servers_to_query.items():
+            headers = {'Authorization': f'Token {INSURANCES_TOKENS[insurance]}'}
+            response = requests.get(f"{server}api/promedicine/professional/examination/{iin}", headers=headers)
+            # response = requests.get(f"{server}api/register/free_slots/", params=params)
+            print(response.text)
+            if response.status_code == 200:
+                print("correcttttttttttttt")
+                results.append(response.json())
+                # results.extend(response.json().get('data', []))  # Предположим, что ответ возвращает список данных в ключе "data".
+            else:
+                print("errroooor")
+                # Здесь можно обработать ошибки или просто записать их
+                pass
+
+        return Response(results, status=status.HTTP_200_OK)

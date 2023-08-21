@@ -12,4 +12,11 @@ urlpatterns = [
     path('doctor/<str:code>/by_hospital', views.DoctorByHospital.as_view(),
          name='doctor_by_hospital'),
 
+    path('aggregat/free/slots', views.AggregateFreeSlotsView.as_view(),
+         name='aggregat_free_slots'),
+    path('customer/professional/examination', views.CustomerProfessionalExaminationView.as_view(),
+         name='customer_professional_examination'),
+
+
+
 ]
