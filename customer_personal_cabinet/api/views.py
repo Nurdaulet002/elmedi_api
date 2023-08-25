@@ -120,8 +120,8 @@ class AggregateFreeSlotsView(APIView):
         return Response(results, status=status.HTTP_200_OK)
 
 
-# @authentication_classes([TokenAuthentication])
-# @permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 class CustomerProfessionalExaminationView(APIView):
 
     def get(self, request):
@@ -140,6 +140,29 @@ class CustomerProfessionalExaminationView(APIView):
                 print("correcttttttttttttt")
                 results.append(response.json())
                 # results.extend(response.json().get('data', []))  # Предположим, что ответ возвращает список данных в ключе "data".
+            else:
+                print("errroooor")
+                # Здесь можно обработать ошибки или просто записать их
+                pass
+
+        return Response(results, status=status.HTTP_200_OK)
+
+
+class CustomerExaminationAppointmentView(APIView):
+
+    def get(self, request):
+        iin = request.query_params.get('iin')
+        requested_insurances = request.query_params.getlist('insurance')
+        results = []
+
+        servers_to_query = {insurance: INSURANCES_TO_SERVERS[insurance] for insurance in requested_insurances if
+                            insurance in INSURANCES_TO_SERVERS}
+        for insurance, server in servers_to_query.items():
+            headers = {'Authorization': f'Token {INSURANCES_TOKENS[insurance]}'}
+            response = requests.get(f"{server}api/promedicine/examination/appointments/{iin}", headers=headers)
+            if response.status_code == 200:
+                print("correcttttttttttttt")
+                results.append(response.json())
             else:
                 print("errroooor")
                 # Здесь можно обработать ошибки или просто записать их

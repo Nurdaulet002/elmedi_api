@@ -16,7 +16,7 @@ urlpatterns = [
          name='aggregat_free_slots'),
     path('customer/professional/examination', views.CustomerProfessionalExaminationView.as_view(),
          name='customer_professional_examination'),
-
-
+    path('customer/examination/appointment', views.CustomerExaminationAppointmentView.as_view(),
+         name='customer_examination_appointment'),
 
 ]
