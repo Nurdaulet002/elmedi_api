@@ -169,3 +169,17 @@ class CustomerExaminationAppointmentView(APIView):
                 pass
 
         return Response(results, status=status.HTTP_200_OK)
+
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+class ExaminationResultView(APIView):
+
+    def post(self, request):
+        result = []
+        data = request.data
+        token_api = '5529e71ddd4a9a66f92869c68d4d398b4c50a753'
+        url_api = 'afce-37-99-45-221.ngrok-free.app'
+        url_invoice_api = 'https://{}/api/promedicine/examination/result/create'.format(url_api)
+        result = requests.post(url_invoice_api, data=data, headers={'Authorization': 'Token ' + token_api})
+        result.json()
+        return Response(results)
