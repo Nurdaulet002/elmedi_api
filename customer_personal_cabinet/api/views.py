@@ -178,8 +178,8 @@ class ExaminationResultView(APIView):
         result = []
         data = request.data
         json_data = {
-            'examination_appointment': data.get('examination_appointment'),
-            'icd': data.get('icd'),
+            'examination_appointment': 'Услуга 1',
+            'icd': '102',
             'conclusion': data.get('conclusion'),
             'recommendations': data.get('recommendations'),
         }
