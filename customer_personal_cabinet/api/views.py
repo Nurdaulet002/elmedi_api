@@ -189,3 +189,26 @@ class ExaminationResultView(APIView):
         result = requests.post(url_invoice_api, data=json_data, headers={'Authorization': 'Token ' + token_api})
         result.json()
         return Response(result)
+
+
+class CustomerExaminationResultView(APIView):
+
+    def get(self, request):
+        iin = request.query_params.get('iin')
+        requested_insurances = request.query_params.getlist('insurance')
+        results = []
+
+        servers_to_query = {insurance: INSURANCES_TO_SERVERS[insurance] for insurance in requested_insurances if
+                            insurance in INSURANCES_TO_SERVERS}
+        for insurance, server in servers_to_query.items():
+            headers = {'Authorization': f'Token {INSURANCES_TOKENS[insurance]}'}
+            response = requests.get(f"{server}api/promedicine/examination/result/{iin}", headers=headers)
+            if response.status_code == 200:
+                print("correcttttttttttttt")
+                results.append(response.json())
+            else:
+                print("errroooor")
+                # Здесь можно обработать ошибки или просто записать их
+                pass
+
+        return Response(results, status=status.HTTP_200_OK)

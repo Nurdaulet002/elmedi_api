@@ -18,6 +18,8 @@ urlpatterns = [
          name='customer_professional_examination'),
     path('customer/examination/appointment', views.CustomerExaminationAppointmentView.as_view(),
          name='customer_examination_appointment'),
+    path('customer/examination/result', views.CustomerExaminationResultView.as_view(),
+         name='customer_examination_result'),
     path('api/examination/result', views.ExaminationResultView.as_view(),
          name='examination_result_api'),
 
