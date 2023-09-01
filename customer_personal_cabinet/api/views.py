@@ -212,3 +212,4 @@ class CustomerExaminationResultView(APIView):
                 pass
 
         return Response(results, status=status.HTTP_200_OK)
+
