@@ -184,7 +184,7 @@ class ExaminationResultView(APIView):
             'recommendations': data.get('recommendations'),
         }
         token_api = '5529e71ddd4a9a66f92869c68d4d398b4c50a753'
-        url_api = '0edf-37-99-37-216.ngrok-free.app'
+        url_api = 'c584-37-99-42-228.ngrok-free.app'
         url_invoice_api = 'https://{}/api/promedicine/examination/result/create'.format(url_api)
         result = requests.post(url_invoice_api, data=json_data, headers={'Authorization': 'Token ' + token_api})
         result.json()
