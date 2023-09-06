@@ -214,33 +214,33 @@ class CustomerExaminationResultView(APIView):
         return Response(results, status=status.HTTP_200_OK)
 
 
-# class ScheduleCreateView(APIView):
-#
-#     def post(self, request):
-#         doctor_code = request.query_params.get('doctor_code')
-#         start_datetime = request.query_params.get('start_datetime')
-#         customer_iin = request.query_params.get('customer_iin')
-#         requested_hospitals = 'hospital1'
-#         params = {
-#             'doctor_code': doctor_code,
-#             'start_datetime': start_datetime,
-#             'customer_iin': customer_iin
-#         }
-#
-#         results = []
-#
-#         servers_to_query = {hospital: HOSPITALS_TO_SERVERS[hospital] for hospital in requested_hospitals if
-#                             hospital in HOSPITALS_TO_SERVERS}
-#
-#         for hospital, server in servers_to_query.items():
-#             headers = {'Authorization': f'Token {HOSPITALS_TOKENS[hospital]}'}
-#             response = requests.post(f"{server}api/register/schedule_create/", params=params, headers=headers)
-#
-#             if response.status_code == 200:
-#                 print("correcttttttttttttt")
-#                 results.append(response.json())
-#             else:
-#                 print("errroooor")
-#                 pass
-#
-#         return Response(results, status=status.HTTP_200_OK)
+class ScheduleCreateView(APIView):
+
+    def post(self, request):
+        doctor_code = request.query_params.get('doctor_code')
+        start_datetime = request.query_params.get('start_datetime')
+        customer_iin = request.query_params.get('customer_iin')
+        requested_hospitals = 'hospital1'
+        params = {
+            'doctor_code': doctor_code,
+            'start_datetime': start_datetime,
+            'customer_iin': customer_iin
+        }
+
+        results = []
+
+        servers_to_query = {hospital: HOSPITALS_TO_SERVERS[hospital] for hospital in requested_hospitals if
+                            hospital in HOSPITALS_TO_SERVERS}
+
+        for hospital, server in servers_to_query.items():
+            headers = {'Authorization': f'Token {HOSPITALS_TOKENS[hospital]}'}
+            response = requests.post(f"{server}api/register/schedule_create/", params=params, headers=headers)
+
+            if response.status_code == 200:
+                print("correcttttttttttttt")
+                results.append(response.json())
+            else:
+                print("errroooor")
+                pass
+
+        return Response(results, status=status.HTTP_200_OK)
