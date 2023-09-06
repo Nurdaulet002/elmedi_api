@@ -234,7 +234,7 @@ class ScheduleCreateView(APIView):
 
         for hospital, server in servers_to_query.items():
             headers = {'Authorization': f'Token {HOSPITALS_TOKENS[hospital]}'}
-            response = requests.post(f"{server}api/register/schedule_create/", params=params, headers=headers)
+            response = requests.post(f"{server}api/register/schedule_create/", data=params, headers=headers)
 
             if response.status_code == 200:
                 print("correcttttttttttttt")
