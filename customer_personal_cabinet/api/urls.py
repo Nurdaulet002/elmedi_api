@@ -22,6 +22,9 @@ urlpatterns = [
          name='customer_examination_result'),
     path('api/examination/result', views.ExaminationResultView.as_view(),
          name='examination_result_api'),
+    path('schedule_create', views.ScheduleCreateView.as_view(),
+         name='schedule_create'),
+
 
 
 ]
