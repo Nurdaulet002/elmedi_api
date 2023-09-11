@@ -221,7 +221,7 @@ class ScheduleCreateView(APIView):
         start_datetime = request.data.get('start_datetime')
         customer_iin = request.data.get('customer_iin')
         requested_hospitals = 'hospital1'
-        params = {
+        json_data = {
             'doctor_code': doctor_code,
             'start_datetime': start_datetime,
             'customer_iin': customer_iin
@@ -229,18 +229,24 @@ class ScheduleCreateView(APIView):
 
         results = []
 
-        servers_to_query = {hospital: HOSPITALS_TO_SERVERS[hospital] for hospital in requested_hospitals if
-                            hospital in HOSPITALS_TO_SERVERS}
+        # servers_to_query = {hospital: HOSPITALS_TO_SERVERS[hospital] for hospital in requested_hospitals if
+        #                     hospital in HOSPITALS_TO_SERVERS}
 
-        for hospital, server in servers_to_query.items():
-            headers = {'Authorization': f'Token {HOSPITALS_TOKENS[hospital]}'}
-            response = requests.post(f"{server}api/register/schedule_create/", data=params, headers=headers)
+        # for hospital, server in servers_to_query.items():
+            # headers = {'Authorization': f'Token {HOSPITALS_TOKENS[hospital]}'}
+            # response = requests.post(f"https://d33a-37-99-41-34.ngrok-free.app/api/register/schedule_create/", data=json_data)
+            #
+            # if response.status_code == 200:
+            #     print("correcttttttttttttt")
+            #     results.append(response.json())
+            # else:
+            #     print("errroooor")
+            #     pass
+        response = requests.post(f"https://a0d5-37-99-33-179.ngrok-free.app/api/register/schedule_create/",
+                                 data=json_data)
 
-            if response.status_code == 200:
-                print("correcttttttttttttt")
-                results.append(response.json())
-            else:
-                print("errroooor")
-                pass
-
+        if response.status_code == 200:
+            results.append(response.json())
+        else:
+            pass
         return Response(results, status=status.HTTP_200_OK)
