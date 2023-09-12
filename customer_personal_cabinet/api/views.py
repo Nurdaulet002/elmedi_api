@@ -170,27 +170,6 @@ class CustomerExaminationAppointmentView(APIView):
 
         return Response(results, status=status.HTTP_200_OK)
 
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-class ExaminationResultView(APIView):
-
-    def post(self, request):
-        result = []
-        data = request.data
-        json_data = {
-            'examination_appointment': data.get('examination_appointment'),
-            'icd': data.get('icd'),
-            'conclusion': data.get('conclusion'),
-            'recommendations': data.get('recommendations'),
-        }
-        token_api = '5529e71ddd4a9a66f92869c68d4d398b4c50a753'
-        url_api = 'f581-37-99-48-111.ngrok-free.app'
-        url_invoice_api = 'https://{}/api/promedicine/examination/result/create'.format(url_api)
-        result = requests.post(url_invoice_api, data=json_data, headers={'Authorization': 'Token ' + token_api})
-        result.json()
-        return Response(result)
-
-
 # @authentication_classes([TokenAuthentication])
 # @permission_classes([IsAuthenticated])
 # class ExaminationResultView(APIView):
@@ -204,13 +183,35 @@ class ExaminationResultView(APIView):
 #             'conclusion': data.get('conclusion'),
 #             'recommendations': data.get('recommendations'),
 #         }
-#         servers_to_query = {insurance: INSURANCES_TO_SERVERS[insurance] for insurance in requested_insurances if
-#                             insurance in INSURANCES_TO_SERVERS}
-#         for insurance, server in servers_to_query.items():
-#             headers = {'Authorization': f'Token {INSURANCES_TOKENS[insurance]}'}
-#             result = requests.post(f"{server}api/promedicine/examination/result/create", data=json_data, headers=headers)
-#             result.json()
+#         token_api = '5529e71ddd4a9a66f92869c68d4d398b4c50a753'
+#         url_api = 'f581-37-99-48-111.ngrok-free.app'
+#         url_invoice_api = 'https://{}/api/promedicine/examination/result/create'.format(url_api)
+#         result = requests.post(url_invoice_api, data=json_data, headers={'Authorization': 'Token ' + token_api})
+#         result.json()
 #         return Response(result)
+
+
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+class ExaminationResultView(APIView):
+
+    def post(self, request):
+        requested_insurances = ['insurance1', 'insurance2', 'insurance3']
+        result = []
+        data = request.data
+        json_data = {
+            'examination_appointment': data.get('examination_appointment'),
+            'icd': data.get('icd'),
+            'conclusion': data.get('conclusion'),
+            'recommendations': data.get('recommendations'),
+        }
+        servers_to_query = {insurance: INSURANCES_TO_SERVERS[insurance] for insurance in requested_insurances if
+                            insurance in INSURANCES_TO_SERVERS}
+        for insurance, server in servers_to_query.items():
+            headers = {'Authorization': f'Token {INSURANCES_TOKENS[insurance]}'}
+            result = requests.post(f"{server}api/promedicine/examination/result/create", data=json_data, headers=headers)
+            result.json()
+        return Response(result)
 
 
 class CustomerExaminationResultView(APIView):
