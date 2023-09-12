@@ -211,7 +211,7 @@ class ScheduleCreateView(APIView):
         doctor_code = request.data.get('doctor_code')
         start_datetime = request.data.get('start_datetime')
         customer_iin = request.data.get('customer_iin')
-        requested_hospitals = 'hospital1'
+        requested_hospitals = ['hospital1']
         json_data = {
             'doctor_code': doctor_code,
             'start_datetime': start_datetime,
