@@ -107,12 +107,9 @@ class AggregateFreeSlotsView(APIView):
             # response = requests.get(f"{server}api/register/free_slots/", params=params)
             print(response.text)
             if response.status_code == 200:
-                print("correcttttttttttttt")
                 results.append(response.json())
                 # results.extend(response.json().get('data', []))  # Предположим, что ответ возвращает список данных в ключе "data".
             else:
-                print("errroooor")
-                # Здесь можно обработать ошибки или просто записать их
                 pass
 
 
@@ -137,12 +134,9 @@ class CustomerProfessionalExaminationView(APIView):
             # response = requests.get(f"{server}api/register/free_slots/", params=params)
             print(response.text)
             if response.status_code == 200:
-                print("correcttttttttttttt")
                 results.append(response.json())
                 # results.extend(response.json().get('data', []))  # Предположим, что ответ возвращает список данных в ключе "data".
             else:
-                print("errroooor")
-                # Здесь можно обработать ошибки или просто записать их
                 pass
 
         return Response(results, status=status.HTTP_200_OK)
@@ -161,34 +155,11 @@ class CustomerExaminationAppointmentView(APIView):
             headers = {'Authorization': f'Token {INSURANCES_TOKENS[insurance]}'}
             response = requests.get(f"{server}api/promedicine/examination/appointments/{iin}", headers=headers)
             if response.status_code == 200:
-                print("correcttttttttttttt")
                 results.append(response.json())
             else:
-                print("errroooor")
-                # Здесь можно обработать ошибки или просто записать их
                 pass
 
         return Response(results, status=status.HTTP_200_OK)
-
-# @authentication_classes([TokenAuthentication])
-# @permission_classes([IsAuthenticated])
-# class ExaminationResultView(APIView):
-#
-#     def post(self, request):
-#         result = []
-#         data = request.data
-#         json_data = {
-#             'examination_appointment': data.get('examination_appointment'),
-#             'icd': data.get('icd'),
-#             'conclusion': data.get('conclusion'),
-#             'recommendations': data.get('recommendations'),
-#         }
-#         token_api = '5529e71ddd4a9a66f92869c68d4d398b4c50a753'
-#         url_api = 'f581-37-99-48-111.ngrok-free.app'
-#         url_invoice_api = 'https://{}/api/promedicine/examination/result/create'.format(url_api)
-#         result = requests.post(url_invoice_api, data=json_data, headers={'Authorization': 'Token ' + token_api})
-#         result.json()
-#         return Response(result)
 
 
 @authentication_classes([TokenAuthentication])
@@ -227,11 +198,8 @@ class CustomerExaminationResultView(APIView):
             headers = {'Authorization': f'Token {INSURANCES_TOKENS[insurance]}'}
             response = requests.get(f"{server}api/promedicine/examination/result/{iin}", headers=headers)
             if response.status_code == 200:
-                print("correcttttttttttttt")
                 results.append(response.json())
             else:
-                print("errroooor")
-                # Здесь можно обработать ошибки или просто записать их
                 pass
 
         return Response(results, status=status.HTTP_200_OK)
@@ -265,7 +233,7 @@ class ScheduleCreateView(APIView):
             # else:
             #     print("errroooor")
             #     pass
-        response = requests.post(f"https://a0d5-37-99-33-179.ngrok-free.app/api/register/schedule_create/",
+        response = requests.post(f"https://99fe-37-99-48-111.ngrok-free.app/api/register/schedule_create/",
                                  data=json_data)
 
         if response.status_code == 200:
