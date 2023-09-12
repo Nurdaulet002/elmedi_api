@@ -187,17 +187,9 @@ class ExaminationResultView(APIView):
                             insurance in INSURANCES_TO_SERVERS}
         for insurance, server in servers_to_query.items():
             headers = {'Authorization': f'Token {INSURANCES_TOKENS[insurance]}'}
-            response = requests.post(f"{server}api/promedicine/examination/result/create", data=json_data, headers=headers)
-            if response.status_code == 200:
-                print("correcttttttttttttt")
-                results.append(response.json())
-            else:
-                print("errroooor")
-                # Здесь можно обработать ошибки или просто записать их
-                pass
-
-        return Response(results, status=status.HTTP_200_OK)
-
+            result = requests.get(f"{server}api/promedicine/examination/result/create", data=json_data, headers=headers)
+            result.json()
+        return Response(result)
 
 class CustomerExaminationResultView(APIView):
 
