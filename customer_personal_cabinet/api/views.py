@@ -187,7 +187,7 @@ class ExaminationResultView(APIView):
                             insurance in INSURANCES_TO_SERVERS}
         for insurance, server in servers_to_query.items():
             headers = {'Authorization': f'Token {INSURANCES_TOKENS[insurance]}'}
-            result = requests.get(f"{server}api/promedicine/examination/result/create", data=json_data, headers=headers)
+            result = requests.post(f"{server}api/promedicine/examination/result/create", data=json_data, headers=headers)
             result.json()
         return Response(result)
 
