@@ -24,7 +24,6 @@ urlpatterns = [
          name='examination_result_api'),
     path('schedule_create', views.ScheduleCreateView.as_view(),
          name='schedule_create'),
-
-
-
+    path('api/package', views.PackageView.as_view(),
+         name='package_api'),
 ]
