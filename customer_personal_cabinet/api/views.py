@@ -233,7 +233,7 @@ class ScheduleCreateView(APIView):
             # else:
             #     print("errroooor")
             #     pass
-        response = requests.post(f"https://99fe-37-99-48-111.ngrok-free.app/api/register/schedule_create/",
+        response = requests.post(f"http://82.200.165.222:1230/api/register/schedule_create/",
                                  data=json_data)
 
         if response.status_code == 200:

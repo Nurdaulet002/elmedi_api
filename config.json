@@ -1,6 +1,6 @@
 {
     "HOSPITALS_TO_SERVERS": {
-        "hospital1": "https://99fe-37-99-48-111.ngrok-free.app/"
+        "hospital1": "http://82.200.165.222:1230/"
     },
     "INSURANCES_TO_SERVERS": {
         "insurance1": "http://82.200.165.222:19601/"
