@@ -105,7 +105,7 @@ class AggregateFreeSlotsView(APIView):
             headers = {'Authorization': f'Token {HOSPITALS_TOKENS[hospital]}'}
             response = requests.get(f"{server}api/register/free_slots/", params=params, headers=headers)
             # response = requests.get(f"{server}api/register/free_slots/", params=params)
-            print(response.text)
+            print("======================================")
             if response.status_code == 200:
                 results.append(response.json())
                 # results.extend(response.json().get('data', []))  # Предположим, что ответ возвращает список данных в ключе "data".
